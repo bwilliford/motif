@@ -1,0 +1,69 @@
+/** Import Work Sans font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@100..900&display=swap');
+
+:root {
+  --brand-color: #fc6238;
+  --text: #343434; 
+  --muted-text: #a1a1a1;
+}
+
+/** Apply Work Sans as the base font */
+* {
+  font-family: 'Work Sans', Arial, Helvetica, sans-serif;
+  color: var(--text);
+}
+
+body {
+  background-color: #fff;
+  /* background-image: url('../images/pattern.svg');
+  background-repeat: repeat;
+  background-size: cover; */
+}
+
+/* Center the motif-logo and set the background image */
+.motif-logo {
+  width: 500px;
+  height: 300px;
+  margin: 0 auto;
+  background: url('../images/logo.svg') no-repeat center center;
+  background-size: contain;
+  display: block;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  background: #f0f0f0;
+  border-radius: 8px;
+  list-style: none;
+  margin-bottom: 8px;
+  padding: 12px 12px;
+}
+
+li a {
+  color: #222;
+  text-decoration: none;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 12px 0;
+}
+
+.footer-credits {
+  text-align: center;
+  margin-bottom: 12px;
+  color: var(--muted-text);
+}
+
+.footer-copyright {
+  text-align: center;
+  color: var(--muted-text);
+}
