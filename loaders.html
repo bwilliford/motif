@@ -1,0 +1,105 @@
+<html>
+
+<head>
+    <title>Motif - Loader concepts</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Motif">
+    <meta name="keywords" content="Motif">
+    <meta name="author" content="Blake WIlliford">
+  
+    <link rel="stylesheet" href="./css/style.css">
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="icon" type="image/png" href="./favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="./favicon/favicon.svg" />
+    <link rel="shortcut icon" href="./favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="./favicon/site.webmanifest" />
+</head>
+
+<body>
+    <div id="loader" class="fadeIn"></div>
+    <div id="loaderPieces" class="hidden fadeIn">
+    </div>
+
+    <a href="index.html">
+        <div class="back"></div>
+    </a>
+
+    <ul id="optionMenu" class="options">
+        <li id="option-fadeIn" class="active" onclick="changeAnimation('fadeIn')">Fade</li>
+        <li id="option-fadeFast" onclick="changeAnimation('fadeFast')">FadeFast</li>
+        <li id="option-drawSlow" onclick="changeAnimation('drawSlow')">DrawSlow</li>
+        <li id="option-drawFast" onclick="changeAnimation('drawFast')">DrawFast</li>
+        <li id="option-drawFade" onclick="changeAnimation('drawFade')">DrawFade</li>
+        <li id="option-chain" onclick="changeType('chain')">Chain</li>
+    </ul>
+    <div id="loaderOverlay"></div>
+    <div class="bg"></div>
+</body>
+
+<script>
+
+    window.onload = function() {
+        changeAnimation('fadeIn');
+    };
+
+    function changeAnimation(name) {
+        //Reset actives
+        optionMenu = document.getElementById("optionMenu");
+        for (let child of optionMenu.children) {
+            child.className = "";
+        }           
+
+        //Set new active
+        document.getElementById("option-"+name).classList.toggle("active");
+
+        //Reset overlay 
+        document.getElementById("loaderOverlay").classList.remove("hidden");
+
+        //Change loader
+        document.getElementById("loader").className = "";
+        document.getElementById("loaderPieces").classList.add("hidden");
+
+        document.getElementById("loader").classList.add(name);
+
+        // setTimeout(function() {
+        //     document.getElementById("loaderOverlay").classList.add("hidden");
+        //     document.getElementById("loader").classList.add("hidden");
+        // }, 4000);
+    }
+
+    function changeType(name) {
+        //Reset actives
+        optionMenu = document.getElementById("optionMenu");
+        for (let child of optionMenu.children) {
+            child.className = "";
+        }          
+        
+        //Reset overlay 
+        document.getElementById("loaderOverlay").classList.remove("hidden");
+        
+        //Set new active
+        document.getElementById("option-"+name).classList.toggle("active");
+
+        //Change loader
+        document.getElementById("loader").classList.add("hidden");
+        document.getElementById("loaderPieces").classList.remove("hidden");
+
+        let images = [
+            "url('')",
+            "url('./images/emblem1.svg')",
+            "url('./images/emblem2.svg')",
+            "url('./images/emblem3.svg')"
+        ];
+        let current = 0;
+        setInterval(function() {
+            current = (current + 1) % images.length;
+            document.getElementById("loaderPieces").style.backgroundImage = images[current];
+        }, 100);
+        }
+    
+    
+</script>
+</html>
