@@ -28,11 +28,12 @@
     </a>
 
     <ul id="optionMenu" class="options">
-        <li id="option-fadeIn" class="active" onclick="changeAnimation('fadeIn')">Fade</li>
-        <li id="option-fadeFast" onclick="changeAnimation('fadeFast')">FadeFast</li>
-        <li id="option-drawSlow" onclick="changeAnimation('drawSlow')">DrawSlow</li>
+        <li id="option-drawSlow" class="active" onclick="changeAnimation('drawSlow')">DrawSlow</li>
         <li id="option-drawFast" onclick="changeAnimation('drawFast')">DrawFast</li>
         <li id="option-drawFade" onclick="changeAnimation('drawFade')">DrawFade</li>
+        <li id="option-fadeIn"  onclick="changeAnimation('fadeIn')">Fade</li>
+        <li id="option-fadeFast" onclick="changeAnimation('fadeFast')">FadeFast</li>
+
         <li id="option-chain" onclick="changeType('chain')">Chain</li>
     </ul>
     <div id="loaderOverlay"></div>
@@ -42,7 +43,7 @@
 <script>
 
     window.onload = function() {
-        changeAnimation('fadeIn');
+        changeAnimation('drawSlow');
     };
 
     function changeAnimation(name) {
