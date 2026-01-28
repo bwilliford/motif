@@ -5,6 +5,8 @@
   --brand-color: #fc6238;
   --text: #343434; 
   --muted-text: #a1a1a1;
+  --master-box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 20px 0px;
+  --model-bg: url('../images/houseModel.jpg');
 }
 
 /** Apply Work Sans as the base font */
@@ -17,10 +19,253 @@ body {
   background-color: #fff;
   margin: 0;
   padding: 0;
-  /* background-image: url('../images/pattern.svg');
-  background-repeat: repeat;
-  background-size: cover; */
+  overflow: hidden;
 }
+
+.alt {
+  background-color: #E8E8E8;
+}
+
+.title {
+  position: fixed;
+  top: 24px;
+  left: 68px;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--text);
+}
+
+.grid {
+  background-image: url('../images/grid.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.model {
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: var(--model-bg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  opacity: 0;
+  transition: opacity 1s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body.model::before {
+  opacity: 1;
+}
+
+#export {
+  position: fixed;
+  top: 16px;
+  right: 68px;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 16px 0 40px;
+  background-image: url('../images/icons/download.svg');
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+  background-position: 16px center;
+  border-radius: 8px;
+  font-size: 14px;
+  text-align: center;
+  box-shadow: var(--master-box-shadow);
+  background-color: var(--brand-color);
+  color: #fff;
+}
+
+#export:hover {
+  background-color: #eb4e22;
+}
+
+#avatar {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  background: url('../images/avatar.png') no-repeat center center;
+  border-radius: 8px;
+  box-shadow: var(--master-box-shadow);
+}
+
+#sketchCanvas {
+  min-width: 100%;
+  min-height: 100%;
+  cursor: crosshair;
+  transition-duration: 0.3s;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+#modeBar {
+  position: fixed;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #fff;
+  border-radius: 12px;
+  height: 40px;
+  max-width: 95vw;
+  padding: 4px 4px;
+  z-index: 2;
+  box-shadow: var(--master-box-shadow);
+}
+
+#modeBar li {
+  display: inline-block;
+  height: 40px;
+  border-radius: 8px;
+  padding: 0;
+  font-size: 14px;
+  line-height: 40px;
+  padding: 0 16px 0 16px;
+  background-color: #fff;
+  cursor: default !important;
+}
+
+#modeBar li svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+  flex: 0 0 auto;
+}
+
+#modeBar li svg path {
+  stroke: var(--text);
+}
+
+#modeBar li.active {
+  background-color: var(--brand-color);
+}
+
+#modeBar li.active * {
+  color: #fff;
+}
+
+#modeBar li.active svg path {
+  stroke: #fff;
+}
+
+#modeBar li span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+#modeBar li:hover {
+  background-color: #f0f0f0;
+}
+
+#modeBar li.active:hover {
+  background-color: #eb4e22;
+}
+
+#toolbar {
+  position: fixed;
+  bottom: 12px;
+  left: calc(50vw - 205px);
+  background-color: #fff;
+  border-radius: 8px;
+  height: 40px;
+  width: auto;
+  padding: 4px 4px;
+  z-index: 2;
+  box-shadow: var(--master-box-shadow);
+}
+
+#toolbar li {
+  display: inline-block;
+  height: 40px;
+  width: 40px;
+  border-radius: 8px;
+  padding: 0;
+  background-color: #ffffff;
+  cursor: default !important;
+}
+
+#toolbar li.active {
+  background-color: var(--brand-color);
+}
+
+#toolbar li.active:hover {
+  background-color: #eb4e22;
+}
+
+
+
+#toolbar li:hover {
+  background-color: #eeeeee;
+}
+
+.toolbar-icon-container {
+  align-items: center; justify-content: center; height: 100%; width: 100%;
+}
+
+.toolbar-icon-container svg {
+  display: block;
+}
+/**
+ * If your SVG icon uses 'currentColor' for the path fill attribute,
+ * you can make the path white by setting the CSS color property to white.
+ * Example (for toolbar icons):
+ */
+#toolbar li.active {
+  color: #fff; /* Sets color to white so currentColor in SVG is white */
+}
+
+#toolbar li svg {
+  margin: 12px auto;
+}
+
+/* If your SVGs don't use currentColor,
+   you can force the path to be white with a more targeted CSS selector —
+   only works for inline SVG, not SVGs loaded via img or background-image: */
+#toolbar li.active svg path,
+#toolbar li.active svg rect,
+#toolbar li.active svg circle {
+  stroke: #fff !important;
+}
+
+.text {
+  background-color: rgba(0,0,0,0);
+  position: fixed;
+  display: inline-block;
+  min-width: 40px; 
+  max-width: 200px;
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 400;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 0px solid var(--text);
+  outline: none;
+  transition: opacity 0.3s ease;
+  opacity: 1;
+}
+
+.text:focus {
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.text::placeholder {
+  opacity: 0.5;
+  color: var(--brand-color);
+}
+
 
 .bg {
   background-image: url('../images/bg.png');
@@ -118,6 +363,18 @@ a {
   color: #ffffff;
 }
 
+#loaderCentered {
+  opacity: 1;
+  visibility: visible;
+  transition-duration: 1s;
+}
+
+.hidden {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transition-duration: 1s !important;
+}
+
 #loader {
   background: url('../images/emblem.svg');
   background-size: 100% 100%;
@@ -127,6 +384,16 @@ a {
   top: calc(50vh - 2rem);
   left: calc(50vw - 2rem);
   z-index: 3;
+}
+
+#loaderText {
+  position: fixed;
+  top: calc(50vh + 40px);
+  left: calc(50vw - 100px);
+  width: 200px;
+  text-align: center;
+  color: var(--brand-color);
+  font-size: 14px;
 }
 
 #loaderPieces {
@@ -384,7 +651,7 @@ a {
 #loaderOverlay {
   position: fixed;
   height: 100vh;
-  width: 100vw;
+  width: 100%;
   background-color: #ffffffb3;
   backdrop-filter: blur(30px);
   opacity: 1;
@@ -399,12 +666,15 @@ a {
   border-radius: 8px;
   list-style: none;
   margin-bottom: 8px;
-  background: #f0f0f0 url('../images/back.svg') no-repeat 50% 50%;
+  background: #ffffff url('../images/back.svg') no-repeat 50% 50%;
+  box-shadow: var(--master-box-shadow);
   position: fixed;
-  top: 8px;
-  left: 8px;
+  top: 16px;
+  left: 16px;
   height: 40px;
   width: 40px;
+  cursor: default !important;
+  z-index: 2;
 }
 
 .back:hover {

@@ -1,0 +1,211 @@
+<html>
+
+<head>
+    <title>Motif - Sketching 2.0</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Motif">
+    <meta name="keywords" content="Motif">
+    <meta name="author" content="Blake WIlliford">
+  
+    <link rel="stylesheet" href="./css/style.css">
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="icon" type="image/png" href="./favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="./favicon/favicon.svg" />
+    <link rel="shortcut icon" href="./favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="./favicon/site.webmanifest" />
+</head>
+
+<body class="alt grid">
+    <canvas id="sketchCanvas" class="sketch" hidpi="off" resize></canvas>
+    <a href="index.html">
+        <div class="back"></div>
+    </a>
+    <div class="title">Sketch Workflow Demo</div>
+    <div id="textContainer"></div>
+
+    <!--Loader-->
+    <div id="loaderCentered" class="hidden">
+        <div id="loader" class="drawFade"></div>
+        <div id="loaderText">Generating Model...</div>
+    </div>
+
+    <!--Mode Bar-->
+    <ul id="modeBar">
+        <li id="create" class="active" onclick="switchMode('create')">
+            <span style="display: flex; align-items: center;">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 9.68966C1.29167 7.43678 2.225 2.93103 3.625 2.93103C5.375 2.93103 4.5 11.6207 5.8125 11.6207C7.125 11.6207 8 1 11.5 1C14.3 1 15 10.3333 15 15" stroke="currentColor"/>
+                </svg>
+                Create
+            </span>
+        </li>
+        <li id="plan" onclick="switchMode('plan')">
+            <span style="display: flex; align-items: center;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M2 10V2H15V14H2V12" stroke="#343434"/>
+                    <path d="M4 8L2 8" stroke="#343434"/>
+                    <path d="M15 8L13 8" stroke="#343434"/>
+                    <path d="M11 8L6 8" stroke="#343434"/>
+                    <path d="M8 2L8 8" stroke="#343434"/>
+                    </svg>
+                Plan
+            </span>
+        </li>
+        <li id="model" onclick="switchMode('model')">
+            <span style="display: flex; align-items: center;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">
+                    <path d="M15 11.7007V5.29934C14.9997 5.01871 14.9277 4.74308 14.7912 4.50011C14.6547 4.25714 14.4585 4.05538 14.2222 3.91506L8.77778 0.714403C8.5413 0.573945 8.27306 0.5 8 0.5C7.72694 0.5 7.4587 0.573945 7.22222 0.714403L1.77778 3.91506C1.54154 4.05538 1.34532 4.25714 1.2088 4.50011C1.07229 4.74308 1.00028 5.01871 1 5.29934V11.7007C1.00028 11.9813 1.07229 12.2569 1.2088 12.4999C1.34532 12.7429 1.54154 12.9446 1.77778 13.0849L7.22222 16.2856C7.4587 16.4261 7.72694 16.5 8 16.5C8.27306 16.5 8.5413 16.4261 8.77778 16.2856L14.2222 13.0849C14.4585 12.9446 14.6547 12.7429 14.7912 12.4999C14.9277 12.2569 14.9997 11.9813 15 11.7007Z" stroke="#343434"/>
+                    <path d="M1 4.5L8 8.5L15 4.5" stroke="#343434"/>
+                    <path d="M8 16.5V8.5" stroke="#343434"/>
+                    </svg>
+                Model
+            </span>
+        </li>
+    </ul>
+
+    <!--Avatar-->
+    <div id="avatar"></div>
+
+    <!--Export-->
+    <div id="export" class="hidden">Export</div>
+
+    <!--Toolbar-->
+    <ul id="toolbar">
+        <li id="rectilinear" class="active" onclick="changeTool('rectilinear')">
+            <div class="toolbar-icon-container">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M2 10V2H15V14H2V12" stroke="#343434"/>
+                    <path d="M4 8L2 8" stroke="#343434"/>
+                    <path d="M15 8L13 8" stroke="#343434"/>
+                    <path d="M11 8L6 8" stroke="#343434"/>
+                    <path d="M8 2L8 8" stroke="#343434"/>
+                    </svg>
+            </div>
+        </li>
+        <li id="smart" onclick="changeTool('smart')">
+            <div class="toolbar-icon-container">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 9.68966C1.29167 7.43678 2.225 2.93103 3.625 2.93103C5.375 2.93103 4.5 11.6207 5.8125 11.6207C7.125 11.6207 8 1 11.5 1C14.3 1 15 10.3333 15 15" stroke="#343434"/>
+                </svg>
+            </div>
+        </li>
+        <li id="freehand" onclick="changeTool('freehand')">
+            <div class="toolbar-icon-container">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 9.68966C1.29167 7.43678 2.225 2.93103 3.625 2.93103C5.375 2.93103 4.5 11.6207 5.8125 11.6207C7.125 11.6207 8 1 11.5 1C14.3 1 15 10.3333 15 15" stroke="#343434"/>
+                </svg>
+            </div>
+        </li>
+        <li id="line" onclick="changeTool('line')">
+            <div class="toolbar-icon-container">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 2L2 14" stroke="#343434"/>
+                    </svg>
+                    
+            </div>
+        </li>
+        <li id="square" onclick="changeTool('square')">
+            <div class="toolbar-icon-container">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="1.5" y="1.5" width="13" height="13" stroke="#343434" />
+                </svg>    
+            </div>
+        </li>
+        <li id="circle" onclick="changeTool('circle')">
+            <div class="toolbar-icon-container">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="8" cy="8" r="7.5" stroke="#343434"/>
+                </svg>    
+            </div>
+        </li>
+        <li id="text" onclick="changeTool('text')">
+            <div class="toolbar-icon-container">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 2V14" stroke="#343434" stroke-width="1"/>
+                <path d="M3 2H13" stroke="#343434" stroke-width="1"/>
+                </svg>
+            </div>
+        </li>
+        <li id="eraser" onclick="changeTool('eraser')">
+            <div class="toolbar-icon-container">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3.80586 7.5L9.12883 12.8229" stroke="#343434" stroke-linejoin="round"/>
+                    <path d="M6.93628 14.5H4.07531L1.34672 11.783C1.23687 11.6748 1.14967 11.5459 1.09016 11.4038C1.03064 11.2618 1 11.1094 1 10.9555C1 10.8016 1.03064 10.6492 1.09016 10.5072C1.14967 10.3651 1.23687 10.2362 1.34672 10.128L9.66486 1.84524C9.7736 1.73586 9.90304 1.64903 10.0457 1.58977C10.1883 1.53051 10.3414 1.5 10.4959 1.5C10.6505 1.5 10.8035 1.53051 10.9462 1.58977C11.0888 1.64903 11.2183 1.73586 11.327 1.84524L14.6587 5.1554C14.8774 5.37723 15 5.67571 15 5.9866C15 6.2975 14.8774 6.59597 14.6587 6.8178L6.93628 14.5Z" stroke="#343434" stroke-linejoin="round"/>
+                    </svg>                    
+            </div>
+        </li>
+        <li id="clear" onclick="clearChalkboard()">
+            <div class="toolbar-icon-container">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M2.00004 3.5H14" stroke="#343434"/>
+                    <path d="M4.08203 13.3369L4.08105 13.3232L3.52832 3.5H12.4775L12.0537 13.3291L12.0527 13.3398V13.3506C12.0527 13.6683 11.9412 13.9624 11.7588 14.1699C11.5782 14.3753 11.348 14.4756 11.124 14.4756H5.00977C4.78602 14.4755 4.55643 14.3751 4.37598 14.1699C4.19356 13.9624 4.08203 13.6683 4.08203 13.3506V13.3369Z" stroke="#343434"/>
+                    <path d="M10.4967 3L10.4989 2.0011C10.4995 1.72453 10.2755 1.5 9.9989 1.5H6C5.72386 1.5 5.5 1.72386 5.5 2V3" stroke="#343434"/>
+                    <path d="M6.5 12.4996L6.5 5.49963" stroke="#343434"/>
+                    <path d="M9.5 12.4996L9.5 5.49963" stroke="#343434"/>
+                  </svg>
+            </div>
+        </li>
+    </ul>
+
+    <!--JS Frameworks-->
+    <script type="text/javascript" src="js/paper-full.min.js"></script>
+    <script type="text/javascript" src="js/sketch.js"></script>
+    <script>
+    window.addEventListener('DOMContentLoaded', function() {
+        // setTimeout(function() {
+        //     var loader = document.getElementById('loaderCentered');
+        //     if (loader) {
+        //         loader.classList.add('hidden');
+        //     }
+        //     document.body.classList.add('model');
+        // }, 4000);
+    });
+
+    function switchMode(mode) {
+
+        var loader = document.getElementById('loaderCentered');
+        var loaderText = document.getElementById('loaderText');
+        var exportButton = document.getElementById('export');
+        
+        modes = ['create', 'plan', 'model'];
+        for (let i = 0; i < modes.length; i++) {
+            document.getElementById(modes[i]).classList.remove('active');
+        }
+        document.getElementById(mode).classList.add('active');
+
+        if (mode === 'create') {
+            document.body.classList.add('grid');
+            document.body.classList.remove('model');
+            exportButton.classList.add('hidden');
+        }
+        else if (mode === 'plan') {
+            document.body.classList.add('grid');
+            document.body.classList.remove('model');
+
+            loader.classList.remove('hidden');
+            loaderText.innerHTML = 'Generating Floorplan...';
+            setTimeout(function() {
+                loader.classList.add('hidden');
+                exportButton.classList.remove('hidden');
+            }, 4000);
+        }
+        else {
+            document.body.classList.remove('grid');
+            loader.classList.remove('hidden');
+            loaderText.innerHTML = 'Generating Model...';     
+
+            setTimeout(function() {
+                loader.classList.add('hidden');
+                document.body.classList.add('model');
+                exportButton.classList.remove('hidden');
+            }, 4000);
+        }
+    }
+
+    </script>
+</body>
+
+</html>
