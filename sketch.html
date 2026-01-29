@@ -153,59 +153,6 @@
     <!--JS Frameworks-->
     <script type="text/javascript" src="js/paper-full.min.js"></script>
     <script type="text/javascript" src="js/sketch.js"></script>
-    <script>
-    window.addEventListener('DOMContentLoaded', function() {
-        // setTimeout(function() {
-        //     var loader = document.getElementById('loaderCentered');
-        //     if (loader) {
-        //         loader.classList.add('hidden');
-        //     }
-        //     document.body.classList.add('model');
-        // }, 4000);
-    });
-
-    function switchMode(mode) {
-
-        var loader = document.getElementById('loaderCentered');
-        var loaderText = document.getElementById('loaderText');
-        var exportButton = document.getElementById('export');
-        
-        modes = ['create', 'plan', 'model'];
-        for (let i = 0; i < modes.length; i++) {
-            document.getElementById(modes[i]).classList.remove('active');
-        }
-        document.getElementById(mode).classList.add('active');
-
-        if (mode === 'create') {
-            document.body.classList.add('grid');
-            document.body.classList.remove('model');
-            exportButton.classList.add('hidden');
-        }
-        else if (mode === 'plan') {
-            document.body.classList.add('grid');
-            document.body.classList.remove('model');
-
-            loader.classList.remove('hidden');
-            loaderText.innerHTML = 'Generating Floorplan...';
-            setTimeout(function() {
-                loader.classList.add('hidden');
-                exportButton.classList.remove('hidden');
-            }, 4000);
-        }
-        else {
-            document.body.classList.remove('grid');
-            loader.classList.remove('hidden');
-            loaderText.innerHTML = 'Generating Model...';     
-
-            setTimeout(function() {
-                loader.classList.add('hidden');
-                document.body.classList.add('model');
-                exportButton.classList.remove('hidden');
-            }, 4000);
-        }
-    }
-
-    </script>
 </body>
 
 </html>

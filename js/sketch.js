@@ -908,6 +908,62 @@ let download = function(filename, dataUrl) {
 
     document.body.removeChild(element)
 }
+
+//Mode switching
+function switchMode(mode) {
+
+    //If mode is already active, do nothing
+    if (document.getElementById(mode).classList.contains('active')) {
+        return;
+    }
+
+    //Components
+    var loader = document.getElementById('loaderCentered');
+    var loaderText = document.getElementById('loaderText');
+    var exportButton = document.getElementById('export');
+    
+    //Remove active classes from all modes
+    modes = ['create', 'plan', 'model'];
+    for (let i = 0; i < modes.length; i++) {
+        document.getElementById(modes[i]).classList.remove('active');
+    }
+    document.getElementById(mode).classList.add('active');
+
+    //Clear canvaa
+    clearChalkboard();
+
+    if (mode === 'create') {
+        document.body.classList.add('grid');
+        document.body.classList.remove('model');
+        document.body.classList.remove('floorplan');
+        exportButton.classList.add('hidden');
+    }
+    else if (mode === 'plan') {
+        document.body.classList.remove('grid');
+        document.body.classList.remove('model');
+
+        loader.classList.remove('hidden');
+        loaderText.innerHTML = 'Generating Floorplan...';
+        setTimeout(function() {
+            loader.classList.add('hidden');
+            exportButton.classList.remove('hidden');
+            document.body.classList.add('floorplan');
+        }, 4000);
+    }
+    else {
+        document.body.classList.remove('grid');
+        document.body.classList.remove('floorplan');
+        loader.classList.remove('hidden');
+        loaderText.innerHTML = 'Generating Model...';     
+
+        setTimeout(function() {
+            loader.classList.add('hidden');
+            document.body.classList.add('model');
+            exportButton.classList.remove('hidden');
+        }, 4000);
+    }
+}
+
 // from Abhinav's answer at  https://stackoverflow.com/questions/37135417/download-canvas-as-png-in-fabric-js-giving-network-error/
 // let dataURLtoBlob = function(dataurl) {
 //     let parts = dataurl.split(','), mime = parts[0].match(/:(.*?);/)[1]
