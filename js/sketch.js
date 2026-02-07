@@ -759,9 +759,9 @@ function changeTool(tool) {
         eraser.activate();
         document.getElementById('eraser').className = "active";
     }
-    else if (tool === 'smartShape') {
+    else if (tool === 'smart') {
         smartShape.activate();
-        document.getElementById('smallPanel').className = "active";
+        document.getElementById('smart').className = "active";
     }
 
     document.getElementById(tool).className = "active";
@@ -911,6 +911,7 @@ let download = function(filename, dataUrl) {
 
 //Mode switching
 function switchMode(mode) {
+    let tools = ['freehand','line','rectilinear','square','smart','circle','eraser','text','clear'];
 
     //If mode is already active, do nothing
     if (document.getElementById(mode).classList.contains('active')) {
@@ -929,7 +930,7 @@ function switchMode(mode) {
     }
     document.getElementById(mode).classList.add('active');
 
-    //Clear canvaa
+    //Clear canvas
     clearChalkboard();
 
     if (mode === 'create') {
@@ -937,6 +938,13 @@ function switchMode(mode) {
         document.body.classList.remove('model');
         document.body.classList.remove('floorplan');
         exportButton.classList.add('hidden');
+
+        // Unhide all tools except freehand
+        changeTool('rectilinear');
+        for (let i = 0; i < tools.length; i++) {
+            let toolElement = document.getElementById(tools[i]);
+            toolElement.classList.remove('inactive');
+        }
     }
     else if (mode === 'plan') {
         document.body.classList.remove('grid');
@@ -944,6 +952,20 @@ function switchMode(mode) {
 
         loader.classList.remove('hidden');
         loaderText.innerHTML = 'Generating Floorplan...';
+
+        // Apply .hidden to all tools except freehand
+        changeTool('freehand');
+        for (let i = 0; i < tools.length; i++) {
+            let toolElement = document.getElementById(tools[i]);
+            if (toolElement) {
+                if (tools[i] !== 'freehand') {
+                    toolElement.classList.add('inactive');
+                } else {
+                    toolElement.classList.remove('inactive');
+                }
+            }
+        }
+
         setTimeout(function() {
             loader.classList.add('hidden');
             exportButton.classList.remove('hidden');
@@ -954,7 +976,20 @@ function switchMode(mode) {
         document.body.classList.remove('grid');
         document.body.classList.remove('floorplan');
         loader.classList.remove('hidden');
-        loaderText.innerHTML = 'Generating Model...';     
+        loaderText.innerHTML = 'Generating Model...';    
+        
+        // Apply .hidden to all tools except freehand
+        changeTool('freehand');
+        for (let i = 0; i < tools.length; i++) {
+            let toolElement = document.getElementById(tools[i]);
+            if (toolElement) {
+                if (tools[i] !== 'freehand') {
+                    toolElement.classList.add('inactive');
+                } else {
+                    toolElement.classList.remove('inactive');
+                }
+            }
+        }
 
         setTimeout(function() {
             loader.classList.add('hidden');

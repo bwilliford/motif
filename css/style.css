@@ -203,11 +203,12 @@ body.floorplan::after {
 #toolbar {
   position: fixed;
   bottom: 12px;
-  left: calc(50vw - 205px);
+  left: 50%;
+  transform: translateX(-50%);
   background-color: #fff;
   border-radius: 8px;
   height: 40px;
-  width: auto;
+  width: fit-content;
   padding: 4px 4px;
   z-index: 2;
   box-shadow: var(--master-box-shadow);
@@ -231,10 +232,13 @@ body.floorplan::after {
   background-color: #eb4e22;
 }
 
-
-
 #toolbar li:hover {
   background-color: #eeeeee;
+}
+
+#toolbar li.inactive {
+  width: 0;
+  overflow: hidden;
 }
 
 .toolbar-icon-container {
